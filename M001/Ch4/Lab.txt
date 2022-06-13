@@ -1,0 +1,160 @@
+LAB 1 - COMPARISON OPERATORS
+
+Problem:
+To complete this exercise connect to your Atlas cluster using the in-browser IDE space at the end of this chapter.
+How many documents in the sample_training.zips collection have fewer than 1000 people listed in the pop field?
+Copy/paste the exact numeric value (without double quotes) of the result that you get into the response field.
+
+Ans: 8065
+Query: db.zips.find({"pop":{"$lt":1000}}).count()
+Explanation: $lt is a comparison MQL operator that filters out documents whose field value is LESS than the specified one
+__________________________________________________________________________________________________________________________
+
+LAB 2 - COMPARISON OPERATORS
+
+Problem:
+
+To complete this exercise connect to your Atlas cluster using the in-browser IDE space at the end of this chapter.
+What is the difference between the number of people born in 1998 and the number of people born after 1998 in the 
+sample_training.trips collection?
+Enter the exact numeric value of the result that you get into the response field.
+
+Ans: 6
+Query: db.trips.find({ "birth year": { "$gt": 1998 }}).count() - db.trips.find({ "birth year": 1998 }).count()
+Explanation: $gt is a comparison MQL operator that filters out documents whose field value is MORE than the specified one
+_________________________________________________________________________________________________________________________
+
+LAB 3 - COMPARISON OPERATORS
+
+Problem:
+
+To complete this exercise connect to your Atlas cluster using the in-browser IDE space at the end of this chapter.
+Using the sample_training.routes collection find out which of the following statements will return all routes 
+that have at least one stop in them?
+
+Ans 1: db.routes.find({ "stops": { "$ne": 0 }}).pretty()
+Ans 2: db.routes.find({ "stops": { "$gt": 0 }}).pretty()
+Explanation: The $ne operator returns documents whose "stops" field is NOT EQUAL to 0
+__________________________________________________________________________________________________________________________
+
+LAB 1 - LOGIC OPERATORS
+
+Problem:
+
+To complete this exercise connect to your Atlas cluster using the in-browser IDE space at the end of this chapter.
+
+Before solving this exercise, make sure to undo some of the changes that we made to the zips collection earlier in 
+the course by running the following command: db.zips.updateMany({ "city": "HUDSON" }, { "$inc": { "pop": -10 } })
+How many zips in the sample_training.zips dataset are neither over-populated nor under-populated?
+In this case, we consider population of more than 1,000,000 to be over- populated and less than 5,000 to be under-populated.
+Copy/paste the exact numeric value (without double quotes) of the result that you get into the response field.
+
+Ans: 11193
+Query: db.zips.find({ "pop": { "$gte": 5000, "$lte": 1000000 }}).count()
+                            or
+       db.zips.find({ "$nor": [ { "pop": { "$lt":5000 } } , { "pop": { "$gt": 1000000 } } ] } ).count()
+Explanation: The $nor operator excludes documents which follows either of the conditions.
+__________________________________________________________________________________________________________________________
+
+LAB 2 - LOGIC OPERATORS
+
+Problem:
+
+To complete this exercise connect to your Atlas cluster using the in-browser IDE space at the end of this chapter.
+How many companies in the sample_training.companies dataset were either founded in 2004
+[and] either have the social category_code [or] web category_code, [or] were founded in the month of October
+[and] also either have the social category_code [or] web category_code?
+Copy/paste the exact numeric value (without double quotes) of the result that you get into the response field.
+
+Ans: 149
+Query: db.companies.find({ "$and": [{ "$or": [ { "founded_year": 2004 },{ "founded_month": 10 } ] },
+                        { "$or": [ { "category_code": "web" }, { "category_code": "social" }]}]}).count()
+Explanation: the $or makes sure to include documents where both either of the statements are true and the $and makes 
+sure to include documents where both the statements are true.
+__________________________________________________________________________________________________________________________
+
+LAB - $expr
+
+Problem:
+
+To complete this exercise connect to your Atlas cluster using the in-browser IDE space at the end of this chapter.
+How many companies in the sample_training.companies collection have the same permalink as their twitter_username?
+
+Ans: 1299
+Query: db.companies.find({ "$expr": { "$eq": [ "$permalink", "$twitter_username" ] }}).count()
+Explanation: We are comparing the values of the two fields within the same document to see if they are equal 
+using the $ to access field values, and the aggregation syntax to use the $eq operator.
+__________________________________________________________________________________________________________________________
+
+LAB 1 - ARRAY OPERATORS
+
+Problem:
+
+To complete this exercise connect to your Atlas cluster using the in-browser IDE space at the end of this chapter.
+What is the name of the listing in the sample_airbnb.listingsAndReviews dataset that accommodates more than 6 
+people and has exactly 50 reviews?
+Copy/Paste the value of the "name" field into the response field without quotation marks.
+
+Ans: Sunset Beach Lodge Retreat
+Query: db.listingsAndReviews.find({ "reviews": { "$size":50 }, "accommodates": { "$gt":6 }})
+Explanation: $size is an array operator that selects document that has exactly array "reviews" of array length equal to 50
+__________________________________________________________________________________________________________________________
+
+LAB 2 - ARRAY OPERATORS
+
+Problem:
+
+To complete this exercise connect to your Atlas cluster using the in-browser IDE space at the end of this chapter.
+Using the sample_airbnb.listingsAndReviews collection find out how many documents have the "property_type" "House",
+and include "Changing table" as one of the "amenities"?
+Enter the number of results to the response field.
+
+Ans: 11
+Query: db.listingsAndReviews.find({ "property_type": "House", "amenities": "Changing table" }).count()
+Explanation: No array operator is required here since the default behaviour is to choose the document in which
+the "amenities" field contains the element "Changing table".
+__________________________________________________________________________________________________________________________
+
+LAB - ARRAY OPERATORS AND PROJECTION
+
+Problem:
+
+To complete this exercise connect to your Atlas cluster using the in-browser IDE space at the end of this chapter.
+How many companies in the sample_training.companies collection have offices in the city of Seattle?
+Copy/paste your answer to the response field
+
+Ans: 117
+Query: db.companies.find({ "offices": { "$elemMatch": { "city": "Seattle" } }}).count()
+Explanation: "offices" is an array that contains documents with the address information from each office. We use 
+$elemMatch to return all documents in which an office array element contains the field city with the value Seattle.
+__________________________________________________________________________________________________________________________
+
+LAB 1 - QUERYING ARRAY AND SUB-DOCUMENTS
+
+Problem:
+
+To complete this exercise connect to your Atlas cluster using the in-browser IDE space at the end of this chapter.
+How many trips in the sample_training.trips collection started at stations that are to the west of the 
+-74 longitude coordinate?Longitude decreases in value as you move west.
+
+Note: We always list the longitude first and then latitude in the coordinate pairs; i.e.<field_name>: [ <longitude>, <latitude> 
+
+Ans: 1928
+Query: db.trips.find({ "start station location.coordinates.0": { "$lt": -74 }}).count()
+Explanation: The "start station location" has a sub-document that contains the coordinates array. To get to this 
+coordinates array we must use use dot-notation. We can issue a range query to find all documents in this longitude.
+The caveat is to remember that all trips take place in NYC so the latitude value in the coordinates array will always
+be positive, and we don't have to worry about it when issuing a range query like this.
+__________________________________________________________________________________________________________________________
+
+LAB 2 - QUERYING ARRAY AND SUB_DOCUMENTS
+
+Problem:
+
+To complete this exercise connect to your Atlas cluster using the in-browser IDE space at the end of this chapter.
+How many inspections from the sample_training.inspections collection were conducted in the city of NEW YORK?
+
+Ans: 18279
+Query: db.inspections.find({ "address.city": "NEW YORK" }).count()
+Explanation: the "Dot notation" can be used to access the "city" property field of the "address" object.
+__________________________________________________________________________________________________________________________

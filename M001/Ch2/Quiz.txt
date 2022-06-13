@@ -1,0 +1,54 @@
+QUIZ - WHAT IS JSON?
+
+Problem:
+
+Which of the following documents is correct JSON?
+
+Ans: {"name" : "Devi", "age": 19, "major": "Computer Science"}
+Explanation: The document starts and ends with curly brackets, all field names are enclosed in double quotes, 
+all field:value pairs are separated by commas.
+
+NOTE - Using single quotes is an invalid JSON format.
+_______________________________________________________________________________________________________________________
+
+QUIZ - IMPORT AND EXPORT 
+
+Problem:
+
+Which of the following commands will add a collection that is stored in animals.json to an Atlas cluster?
+
+Ans: mongoimport
+Explanation - mongodump exports data in raw BSON format.
+              mongorestore imports data in raw BSON format.
+              mongoexport exports data in raw JSON format.
+_______________________________________________________________________________________________________________________
+
+QUIZ - DATA EXPLORER
+
+Problem:
+
+In the sample_training.trips collection a person with birth year 1961 took a trip that started at 
+"Howard St & Centre St". What was the end station name for that trip?
+Copy and paste your answer from the Atlas UI to the response text box. The station name should be in a single set 
+double quotes, exactly as it is in the Data Explorer.
+
+Ans: South End Ave & Liberty St
+Query in Atlas: {"start station name" : "Howard St & Centre St", "birth year" : 1961}
+
+_______________________________________________________________________________________________________________________
+
+QUIZ - THE MONGO SHELL
+
+Problem:
+
+Which of the following statements are true about the mongo shell?
+
+Ans 1: It allows you to interact with your MongoDB instance without using a Graphical User Interface
+Ans 2: It is a fully functioning JavaScript interpreter
+
+Explanation: mongo shell is a fully functioning JavaScript interpreter. We can create things like JavaScript functions 
+and variables in it.
+The mongo shell doesn't return sorted list of documents by default. However, to sort the unordered list, we can use 
+the sort() command.
+_______________________________________________________________________________________________________________________
+

@@ -1,0 +1,102 @@
+QUIZ 1 - LOGIC OPERATORS
+
+Problem:
+
+To complete this exercise connect to your Atlas cluster using the in-browser IDE space at the end of this chapter.
+How many businesses in the sample_training.inspections dataset have the inspection result "Out of Business" 
+and belong to the "Home Improvement Contractor - 100" sector?
+Enter the exact numeric value of the result that you get into the response field.
+
+Ans: 4
+Query: db.inspections.find({ "result": "Out of Business", "sector": "Home Improvement Contractor - 100" }).count()
+                    or
+db.inspections.find({"$and": [{ "result": "Out of Business", "sector": "Home Improvement Contractor - 100" }]}).count()
+
+Explanation: MongoDB by default considers the operation to be $and by separating our conditions by a comma. So there is
+no need to explicitly use the $and operator but it would still work the same if we do. 
+__________________________________________________________________________________________________________________________
+
+QUIZ 2 - LOGIC OPERATORS
+
+Problem:
+
+Which is the most succinct query to return all documents from the sample_training.inspections collection where the
+inspection date is either "Feb 20 2015", or "Feb 21 2015" and the company is not part of the 
+"Cigarette Retail Dealer - 127" sector?
+
+Ans:
+    db.inspections.find({ "$or": [ { "date": "Feb 20 2015" }, { "date": "Feb 21 2015" } ],
+        "sector": { "$ne": "Cigarette Retail Dealer - 127" }}).pretty()
+Explanation: Includes documents that contains either of the dates that we are looking for and excludes all documents 
+where the sector is "Cigarette Retail Dealer - 127" by using the $ne not equal comparison operator.
+__________________________________________________________________________________________________________________________
+
+QUIZ 1 - $expr
+
+Problem:
+
+What are some of the uses for the $ sign in MQL?
+
+Ans 1: $ denotes an operator.
+Ans 2: $ signifies that you are looking at the value of that field rather than the field name.
+
+Explanation: The above statements are correct because all MQL operators have the $ prefix and $ can also be used as a 
+prefix in the field name to get the value of the field the aggregation syntax.
+__________________________________________________________________________________________________________________________
+
+QUIZ 2 - $expr
+
+Problem:
+
+Which of the following statements will find all the companies that have more employees than the year in which 
+they were founded?
+
+Ans 1: db.companies.find({ "$expr": { "$lt": [ "$founded_year", "$number_of_employees" ] } }).count()
+Ans 2: db.companies.find({ "$expr": { "$gt": [ "$number_of_employees", "$founded_year" ]} }).count()
+
+Explanation: We have to use the $expr operator to compare the two field values within each document. 
+Using the $expr operator is the reason why we have to use the aggregation syntax for the comparison operator.
+When we swap the compared fields and use the $lt less than operator instead of the $gt greater than operator, 
+the result should still be correct.
+__________________________________________________________________________________________________________________________
+
+QUIZ - ARRAY OPERATORS
+Problem:
+
+Which of the following queries will return all listings that have "Free parking on premises", "Air conditioning", and 
+"Wifi" as part of their amenities, and have at least 2 bedrooms in the sample_airbnb.listingsAndReviews collection?
+
+Ans: db.listingsAndReviews.find({ "amenities":
+  { "$all": [ "Free parking on premises", "Wifi", "Air conditioning" ] },"bedrooms": { "$gte":  2 } }).pretty()
+
+Explanation: the $all array operator is used in order to get all documents where the amenities array contains these three 
+elements regardless of their order. The $gte to select documents for 2 or more bedrooms.
+__________________________________________________________________________________________________________________________
+
+QUIZ - ARRAY OPERATORS AND PROJECTION
+
+Problem:
+
+Which of the following queries will return only the names of companies from the sample_training.companies collection that
+had exactly 8 funding rounds?
+
+Ans: db.companies.find({ "funding_rounds": { "$size": 8 } }, { "name": 1, "_id": 0 })
+
+Explanation: Since we are looking to only view the names of companies then we have to explicitly exclude the _id in 
+the projection.
+__________________________________________________________________________________________________________________________
+
+QUIZ - QUERYING ARRAY AND SUB-DOCUMENTS
+
+Problem:
+
+Which of the following queries will return the names and addresses of all listings from the sample_airbnb.listingsAndReviews
+collection where the first amenity in the list is "Internet"?
+
+Ans: db.listingsAndReviews.find({ "amenities.0": "Internet" },  { "name": 1, "address": 1 }).pretty()
+
+Explanation: To reach the first element in an array field we need to use 'dot notation' and the element's position which 
+is zero for the first element in an array. For the projection part, we don't need to explicitly exclude the _id field
+because the question isn't strict about that.
+__________________________________________________________________________________________________________________________
+

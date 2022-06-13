@@ -1,0 +1,65 @@
+QUIZ - WHAT IS MONGODB?
+
+Problem:
+
+Why is MongoDB a NoSQL database?
+Ans 1: Because it uses a structured way to store and access data
+Ans 2: Because it does not utilize tables, rows and columns to organize data
+
+Explanation: Since mongo is a database, it implies that there is a structured way to store data.
+NoSQL means it doesn't imvolve tables - rows or columns. It uses JSON like documents to structure data instead.
+_______________________________________________________________________________________________________________________
+
+QUIZ - WHAT IS THR MONGODB DATABASE
+
+Problem:
+
+Select the statements that together help build the most complete definition of the MongoDB database:
+
+Ans 1: The MongoDB database is an organized way to store and access data.
+Ans 2: MongoDB is a NoSQL database that uses documents to store data in an organized way.
+
+Explanation: Since Mongo DB is a no SQL Database, it does not employ related tables of data to store information, 
+instead it uses documents. It doesn't organize in rows or tables, instead it uses collections.
+_______________________________________________________________________________________________________________________
+
+QUIZ 2 - WHAT IS A DOCUMENT?
+
+Problem:
+
+In MongoDB how does a document relate to a collection?
+
+Ans 1: Collections consist of one or many documents.
+Explanation: Collection is a container that consists of one or more documents. This is the structure followed by the 
+noSQL MongoDB and the collection or document doesn't make use of any tables or rows or columns.
+_______________________________________________________________________________________________________________________
+
+QUIZ 3 - WHAT IS A DOCUMENT?
+
+Problem:
+
+In a MongoDB Document what is the role of fields and values?
+
+Ans 1: Each field has a value associated with it.
+Explanation: 
+Data is structured in JSON like format type which is organized in field-value pairs where field names are unique within
+the same level of a document and the values follows Valid data types like - Number, String, Boolean, ObjectId, array etc.
+
+Ans 2: A field is a unique identifier for a specific datapoint.
+Explanation: We cannot have duplicate field names within the same level of a single document, which is why they 
+are unique identifiers for every field.
+_______________________________________________________________________________________________________________________
+
+QUIZ - WHAT IS ATLAS?
+
+Problem:
+
+How is MongoDB Atlas related to MongoDB the Database?
+
+Ans 1: Atlas has many tools and services within it that are built specifically for the MongoDB Database.
+Ans 2: They both are MongoDB products.
+
+Explanation: MongoDB Atlas is like a super set of MongoDB. It provides all the functionality that MongoDB database does,
+plus Atlas features go beyond the functionality of organizing and storing data, 
+examples are Charts, Realm, Security features and more.
+_______________________________________________________________________________________________________________________
