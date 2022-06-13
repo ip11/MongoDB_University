@@ -1,0 +1,91 @@
+QUIZ - AGGREGATION FRAMEWORK 
+
+Problem:
+
+What are the differences between using aggregate() and find()?
+
+Ans 1: aggregate() allows us to compute and reshape data in the cursor.
+Explanation: The aggregation framework allows us to compute and reshape data via using stages like
+$group, $sum, and others. It acts as a pipeline where the order of actions matter. 
+It aggregates and groups data instead of just filtering the documents.
+
+Ans 2: aggregate() can do what find() can and more.
+Explanation: Any find() query can be translated into an aggregation pipeline equivalent, but not every aggregation
+pipeline can be translated into a find() query.
+_______________________________________________________________________________________________________________________
+
+QUIZ 1 - SORT AND LIMIT
+
+Problem:
+
+Which of the following commands will return the name and founding year for the 5 oldest companies in the
+sample_training.companies collection?
+
+Ans: db.companies.find({ "founded_year": { "$ne": null }},{ "name": 1, "founded_year": 1 })
+        .sort({ "founded_year": 1 }).limit(5)
+Explanation: Before sorting  it is important to exclude the documents whose founded_year is "null", otherwise sorting
+won't be done properly. This can be done using the $ne operator. We can sort in increasing order by using "1" and then
+finally we limit the documents to the first 5 as per the given question.
+_______________________________________________________________________________________________________________________
+
+QUIZ 2 - SORT AND LIMIT
+
+Problem:
+
+To complete this exercise connect to your Atlas cluster using the in-browser IDE space at the end of this chapter.
+In what year was the youngest bike rider from the sample_training.trips collection born?
+
+Ans: 1999
+Query: db.trips.find({ "birth year": { "$ne":"" } },{ "birth year": 1 }).sort({ "birth year": -1 }).limit(1)
+Explanation: Just like the previous one, it is important to first filter out all empty string values, in order to get
+actual year values. The only difference here is we sort the documents by descending order, so value is "-1" and
+since we need the youngest rider, limit is just 1.
+_______________________________________________________________________________________________________________________
+
+
+QUIZ - INTRODUCTION TO INDEXES
+
+Problem:
+
+Jameela often queries the sample_training.routes collection by the src_airport field like this:   
+db.routes.find({ "src_airport": "MUC" }).pretty()
+Which command will create an index that will support this query?
+
+Ans: db.routes.createIndex({ "src_airport": -1 })
+Explanation:It doesn't really matter whether the index was created in increasing or decreasing order when it is a 
+simple single-field index so using '1' instead of '-1' would work too.
+_______________________________________________________________________________________________________________________
+
+QUIZ - INTRODUCTION TO DATA MODELING
+
+Problem:
+
+What is data modeling?
+
+Ans: a way to organize fields in a document to support your application performance and querying capabilities
+Explanation: Data modeling is a way to organize your data, which includes making decisions about fields, collections,
+and datatypes that will be used in each collection.
+_______________________________________________________________________________________________________________________
+
+QUIZ - UPSERT 
+
+Problem:
+
+How does the upsert option work?
+
+Ans 1: When upsert is set to false and the query predicate returns an empty cursor then there will be no updated
+documents as a result of this operation.
+Explanation: When upsert is set to false an update will happen only when the query predicate is matched with a
+document from the collection.
+
+Ans 2: When upsert is set to true and the query predicate returns an empty cursor, the update operation creates a new
+document using the directive from the query predicate and the update predicate.
+Explanation: When upsert is set to true it can perform an insert if the query predicate doesn't return a matching 
+document.
+
+Ans 3: By default upsert is set to false.
+Explanation: If the upsert option is not specified, then it will have the value of false by default.
+_______________________________________________________________________________________________________________________
+
+
+

@@ -1,0 +1,173 @@
+Inserting New Documents - insert() and errors:
+
+1. Get a random document from a collection
+2. Copy this random document, and insert it back to the collection. Do you get a "Duplicate Key" error?
+
+Ans: Yes.
+Explanation: We get the "Duplicate Key" error because no two documents in a collection can have the same "_id".
+___________________________________________________________________________________________________________________
+
+3. Insert that document into the collection without the _id field to get a successfull insert. Did it work?
+
+Ans: Yes.
+Explanation: When we Insert the same document without the "_id" field, mongodb will create and insert a new "_id" 
+             before inserting the document into the collection by MongoDB.
+____________________________________________________________________________________________________________________
+
+
+
+
+
+
+Inserting New Documents - insert() order:
+
+1. Insert three test documents into the inspections collection
+   db.inspections.insert([{"test":1},{"test":2},{"test":3}])
+
+2. Insert the same three documents into the inspections collection. Did it
+   work? Why?
+
+Ans: Yes. 
+Explanation: It works because the three same documents inserted into the collection has different  "_id" fields. 
+_______________________________________________________________________________________________________________________
+
+3. Insert these three test documents into the inspections collection. Did it work? Why?
+   db.inspections.insert([{"_id": 1, "test": 1},{"_id": 1, "test": 2},{"_id": 3,"test": 3}])
+
+Ans: No.
+Explanation:  Only the first document is inserted. The second document is not inserted because of "Duplicate Key" error
+              i.e the first two documents share the same "_id". Third document is not inserted even though it has a 
+              different "_id" because the Duplicate Key error halts the execution of the rest of the query. 
+________________________________________________________________________________________________________________________
+
+4. Try the same insert as above but make it unordered. What did you notice?
+
+Query: db.inspections.insert([{"_id": 1, "test": 1},{"_id": 1, "test": 2},{"_id": 3,"test": 3}], {"ordered" : false})
+Ans: The third document is inserted into the collection.
+Explanation: We notice that even though the first two documents don't get inserted because of the Duplicate Key error, 
+             making it unordered doesn't halt the execution of the rest of the query, hence inserting the third document.
+__________________________________________________________________________________________________________________________
+
+5. Try this command. Did it work? Why?
+   db.inspection.insert([{ "_id":1, "test": 1 },{ "_id": 3,"test": 3 }])
+
+Ans: Yes.
+Explanation: Because we are inserting the documents into a new collection called "inspection". Important to notice that
+             the previous collection was named "inspections" which is altogether a different collection.
+__________________________________________________________________________________________________________________________
+
+
+
+
+
+
+Updating Documents  - mongo shell
+
+1. Find all documents in the zips collection where the zip field is equal to 12434.
+
+Query: db.zips.find({"zip":"12434"}).pretty()
+Ans : {
+        "_id" : ObjectId("5c8eccc1caa187d17ca731f6"),
+        "city" : "GRAND GORGE",
+        "zip" : "12434",
+        "loc" : {
+                "y" : 42.387358,
+                "x" : 74.531173
+        },
+        "pop" : 13,
+        "state" : "NY"
+}
+__________________________________________________________________________________________________________________________
+
+2. Find all documents in the zips collection where the city field is equal to "HUDSON".
+
+Query: db.zips.find({"city":"HUDSON"}).pretty()
+__________________________________________________________________________________________________________________________
+
+3. Find how many documents in the zips collection have the city field is equal to "HUDSON".
+
+Ans: 16
+Query: db.zips.find({"city":"HUDSON"}).count()
+__________________________________________________________________________________________________________________________
+
+4. Update all documents in the zips collection where the city field is equal to "HUDSON" by adding 10 to the current 
+   value of the "pop" field.
+
+Query: db.zips.updateMany({ "city": "HUDSON" }, { "$inc": { "pop": 10 } })
+Explanation: The $inc is an MQL operator that increments the value of a given field by a number. In our case, 10
+__________________________________________________________________________________________________________________________
+
+5. Update a single document in the zips collection where the zip field is equal to 12534 by setting the value of the 
+   "pop" field to 17630.
+
+Query: db.zips.updateOne({ "zip": "12534" }, { "$set": { "pop": 17630 } })
+Explanation: The $set is an MQL operator that modifies the value of a given field to any value.
+__________________________________________________________________________________________________________________________
+
+6. Update a single document in the zips collection where the zip field is equal to 12534 by setting the value of the 
+   "population" field to 17630.
+
+Query: db.zips.updateOne({ "zip": "12534" }, { "$set": { "population": 17630 } })
+__________________________________________________________________________________________________________________________
+
+7. Find all documents in the grades collection where the student_id is 151, and the class_id field is 339.
+
+Query: db.grades.find({ "student_id": 151, "class_id": 339 }).pretty()
+__________________________________________________________________________________________________________________________
+
+8. Find all documents in the grades collection where the student_id is 250, and the class_id field is 339.
+
+Query: db.grades.find({ "student_id": 250, "class_id": 339 }).pretty()
+__________________________________________________________________________________________________________________________
+
+9. Update one document in the grades collection where the student_id is 250, and the class_id field is 339, by adding a
+   document element to the "scores" array.
+
+Query: db.grades.updateOne({ "student_id": 250, "class_id": 339 },
+                    { "$push": { "scores": { "type": "exam", "score": 70 }}})
+Explanation: The $push is an MQL operator that adds elements/documents to the end of the array. In our case, the "scores" array.
+__________________________________________________________________________________________________________________________
+
+
+
+
+
+Deleting Documents and Collections
+
+1. Look at all the documents in the inspections collection that have test field equal to 1.
+
+Query: db.inspections.find({ "test": 1 }).pretty()
+__________________________________________________________________________________________________________________________
+
+2. Look at all the documents in the inspections collection that have test field equal to 3.
+
+Query: db.inspections.find({ "test": 3 }).pretty()
+__________________________________________________________________________________________________________________________
+
+3. Delete all the documents from the inspections collection that have test field equal to 1
+
+Query: db.inspections.deleteMany({ "test": 1 })
+Explanation: Since there are multiple documents to be deleted, we use deleteMany()
+__________________________________________________________________________________________________________________________
+
+4. Delete one document from the inspections collection that has test field equal to 3
+
+Query: db.inspections.deleteOne({ "test": 3 })
+Explanation: Since is only one document to be deleted, we use deleteOne()
+__________________________________________________________________________________________________________________________
+
+5. Inspect what is left of the inspection collection.
+
+Query: db.inspection.find().pretty()
+__________________________________________________________________________________________________________________________
+
+6. View what collections are present in the sample_training database.
+
+Query: show collections
+__________________________________________________________________________________________________________________________
+
+7. Drop the inspection collection
+
+Query: db.inspection.drop()
+__________________________________________________________________________________________________________________________
+

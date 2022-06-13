@@ -1,0 +1,42 @@
+QUIZ QUESTIONS EXAM
+
+1. In the sample_training.trips collection a person with birth year 1961 took a
+trip that started at "Howard St & Centre St". What was the end station name for that trip?
+
+Ans: 'South End Ave & Liberty St'
+
+Query: db.trips.findOne({"birth year" : 1961, "start station name" : "Howard St & Centre St"})
+
+______________________________________________________________________________________________________________
+
+2. Using the sample_training.inspections collection find out how many inspections were conducted on Feb 20 2015.
+
+Ans: 320
+
+Query: db.inspections.find({"date" : "Feb 20 2015"}).count()
+_________________________________________________________________________________________________________________
+
+CHAPTER-2 EXAM
+
+find() command
+
+1. Query the zips collection fom the sample_training database to find all documents where the state is NY.
+2. Iterate through the query results.
+
+Query: db.zips.find({"state" : "NY"}) 
+___________________________________________________________________________________________________________________
+
+3. Find out how many ZIP codes there are in NY state.
+
+Query: db.zips.find({"state" : "NY"}).count()
+___________________________________________________________________________________________________________________
+
+4. What about the ZIP codes that are in NY but also in the city of ALBANY?
+
+Query: db.zips.find({"state" : "NY", "city" : "ALBANY"})
+___________________________________________________________________________________________________________________
+
+5. Make the cursor look more readable.
+
+Query: db.zips.find({"state" : "NY", "city" : "ALBANY"}).pretty()
+___________________________________________________________________________________________________________________
